@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub mod ecvrf {
     pub mod ciphersuites {
         pub const ECVRF_P256_SHA256_TAI: u8 = 0x01;

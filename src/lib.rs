@@ -2,10 +2,10 @@
 #![doc = include_str!("../README.md")]
 
 use crate::error::VrfResult;
-#[cfg(feature = "rsa")]
-compile_error!(
-    "The `rsa` feature isn't implemented yet. Please express support for it in the repo for it to be implemented."
-);
+// #[cfg(feature = "rsa")]
+// compile_error!(
+//     "The `rsa` feature isn't implemented yet. Please express support for it in the repo for it to be implemented."
+// );
 
 pub(crate) mod consts;
 

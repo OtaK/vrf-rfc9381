@@ -1,6 +1,6 @@
 [package]
 name = "vrf-rfc9381"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2024"
 readme = "README.md"
 description = "Rust implementation of VRFs (Verifiable Random Functions) as described in RFC9381"
@@ -18,13 +18,13 @@ features = ["ec", "edwards25519", "p256", "hazmat"]
 rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
 
 [features]
-default = ["edwards25519", "p256", "hazmat"]
+default = []
 hazmat = [
 ] # /!\ WARNING: This is used in test vectors to perform equality checks on the inner scalars in Private Keys.
 ec = []
 edwards25519 = ["ec", "dep:curve25519-dalek"]
 p256 = ["ec", "dep:p256", "dep:rfc6979"]
-rsa = ["dep:rsa"]
+# rsa = ["dep:rsa"]
 
 [dependencies]
 thiserror = "2"
@@ -34,7 +34,7 @@ zeroize = { version = "1.8", features = ["zeroize_derive"] }
 digest = "0.10"
 sha2 = "0.10"
 rfc6979 = { version = "0.4", optional = true }
-rsa = { version = "0.9", optional = true }
+# rsa = { version = "0.9", optional = true }
 
 # Go back to mainline version once this gets merged and to the crates.io
 # version when it appears there
