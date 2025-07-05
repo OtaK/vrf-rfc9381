@@ -59,6 +59,7 @@ impl std::ops::Deref for Ciphersuite {
 }
 
 pub trait Proof<H: digest::Digest>: PartialEq + Eq {
+    const PROOF_LEN: usize;
     /// Decodes the `pi_string` to a concrete Proof
     fn decode_pi(pi: &[u8]) -> VrfResult<Self>
     where

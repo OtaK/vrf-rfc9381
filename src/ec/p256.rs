@@ -176,8 +176,6 @@ pub struct EcVrfProof {
 }
 
 impl EcVrfProof {
-    const PROOF_LEN: usize = CHALLENGE_LEN + Q_LEN + PT_LEN;
-
     #[inline]
     fn compressed_gamma(&self) -> p256::EncodedPoint {
         p256::EncodedPoint::from(self.gamma).compress()
@@ -185,6 +183,8 @@ impl EcVrfProof {
 }
 
 impl crate::Proof<Sha256> for EcVrfProof {
+    const PROOF_LEN: usize = CHALLENGE_LEN + Q_LEN + PT_LEN;
+
     fn decode_pi(pi: &[u8]) -> VrfResult<Self>
     where
         Self: Sized,

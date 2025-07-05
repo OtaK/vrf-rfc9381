@@ -176,11 +176,9 @@ pub struct EdVrfProof {
     s: Scalar,
 }
 
-impl EdVrfProof {
-    const PROOF_LEN: usize = CHALLENGE_LEN + Q_LEN + PT_LEN;
-}
-
 impl crate::Proof<Sha512> for EdVrfProof {
+    const PROOF_LEN: usize = CHALLENGE_LEN + Q_LEN + PT_LEN;
+
     fn decode_pi(pi: &[u8]) -> VrfResult<Self> {
         if pi.len() != Self::PROOF_LEN {
             return Err(VrfError::IncorrectPiLength {
