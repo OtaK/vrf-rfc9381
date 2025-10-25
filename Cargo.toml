@@ -1,6 +1,6 @@
 [package]
 name = "vrf-rfc9381"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2024"
 readme = "README.md"
 description = "Rust implementation of VRFs (Verifiable Random Functions) as described in RFC9381"
