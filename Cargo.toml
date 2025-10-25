@@ -23,35 +23,35 @@ hazmat = [
 ] # /!\ WARNING: This is used in test vectors to perform equality checks on the inner scalars in Private Keys.
 ec = []
 edwards25519 = ["ec", "dep:curve25519-dalek"]
-p256 = ["ec", "dep:p256", "dep:rfc6979"]
+p256 = ["ec", "dep:p256", "dep:rfc6979", "dep:hash2curve"]
 # rsa = ["dep:rsa"]
 
 [dependencies]
 thiserror = "2"
-signature = "2.2"
-subtle = "2.6"
-zeroize = { version = "1.8", features = ["zeroize_derive"] }
-digest = "0.10"
-sha2 = "0.10"
-rfc6979 = { version = "0.4", optional = true }
+signature = "3.0.0-rc.4"
+subtle = "2"
+zeroize = { version = "1", features = ["zeroize_derive"] }
+digest = "0.11.0-rc.2"
+sha2 = "0.11.0-rc.2"
+rfc6979 = { version = "0.5.0-rc.2", optional = true }
+hash2curve = { version = "0.14.0-rc.3", optional = true }
 # rsa = { version = "0.9", optional = true }
 
 # Go back to mainline version once this gets merged and to the crates.io
 # version when it appears there
 [dependencies.curve25519-dalek]
-package = "tmp-curve25519-dalek-h2c-do-not-use"
-version = "4"
+version = "5.0.0-pre.1"
 optional = true
 features = ["digest", "legacy_compatibility", "group"]
 
 [dependencies.p256]
-version = "0.13"
-features = ["std", "arithmetic", "hash2curve"]
+version = "0.14.0-rc.0"
+features = ["std", "arithmetic", "hash2curve", "group-digest"]
 default-features = false
 optional = true
 
 [target.wasm32-unknown-unknown.dependencies]
-getrandom = { version = "0.2", features = ["js"] }
+getrandom = { version = "0.3", features = ["wasm_js"] }
 
 [[test]]
 name = "test-vectors"
@@ -59,6 +59,7 @@ required-features = ["edwards25519", "p256", "hazmat"]
 harness = false
 
 [dev-dependencies]
+wasm-bindgen-test = "0.3"
 hex-literal = "1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }

@@ -15,6 +15,9 @@ pub enum VrfError {
     #[cfg(feature = "p256")]
     #[error(transparent)]
     P256Error(#[from] p256::elliptic_curve::Error),
+    #[cfg(feature = "p256")]
+    #[error(transparent)]
+    P256Hash2CurveError(#[from] hash2curve::ExpandMsgXmdError),
     #[cfg(feature = "ec")]
     #[error("Invalid Elliptic Curve point")]
     InvalidEcPoint,

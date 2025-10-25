@@ -234,16 +234,13 @@ impl crate::Proof<Sha256> for EcVrfProof {
 mod internal {
     use p256::{
         EncodedPoint, NistP256, PublicKey, SecretKey,
-        elliptic_curve::{ScalarPrimitive, bigint::ArrayEncoding, hash2curve::ExpandMsgXmd},
+        elliptic_curve::{ScalarValue, bigint::ArrayEncoding},
     };
     use sha2::{Digest as _, Sha256};
 
     use crate::{
         Ciphersuite,
-        consts::ecvrf::{
-            ciphersuites::ECVRF_P256_SHA256_SSWU,
-            e2c::{ECVRF_E2C_H2C_DST, ECVRF_P256_SSWU_DST},
-        },
+        consts::ecvrf::{ciphersuites::ECVRF_P256_SHA256_SSWU, e2c::ECVRF_E2C_H2C_DST},
         ec::{
             p256::{CHALLENGE_LEN, EcVrfProof, PT_LEN, Q_LEN},
             util,
@@ -280,7 +277,7 @@ mod internal {
         }
 
         fn generate_nonce(&self, h_string: &[u8]) -> VrfResult<SecretKey> {
-            let q = ScalarPrimitive::<NistP256>::MODULUS.to_be_byte_array();
+            let q = ScalarValue::<NistP256>::MODULUS.to_be_byte_array();
             let h = Sha256::digest(h_string);
             let k = rfc6979::generate_k::<Sha256, _>(&self.0.to_bytes(), &q, &h, b"");
 
@@ -379,21 +376,20 @@ mod internal {
         }
 
         fn h2c_encode_to_curve_sswu(&self, alpha: &[u8]) -> VrfResult<Self> {
+            use hash2curve::GroupDigest as _;
             // string_to_be_hashed = encode_to_curve_salt || alpha_string
             let string_to_be_hashed = [self.encode_to_curve_salt(), alpha].concat();
             // "ECVRF_" || h2c_suite_ID_string || suite_string
             let dst = [
                 &ECVRF_E2C_H2C_DST[..],
-                &ECVRF_P256_SSWU_DST[..],
+                p256::NistP256::ENCODE_TO_CURVE_ID,
                 &[ECVRF_P256_SHA256_SSWU],
             ]
             .concat();
 
-            use p256::elliptic_curve::hash2curve::GroupDigest as _;
-
-            let point = p256::NistP256::encode_from_bytes::<ExpandMsgXmd<Sha256>>(
-                &[&string_to_be_hashed],
-                &[&dst],
+            let point = <p256::NistP256 as hash2curve::GroupDigest>::encode_from_bytes(
+                &string_to_be_hashed,
+                &dst,
             )?
             .to_affine();
 

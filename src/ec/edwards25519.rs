@@ -391,7 +391,10 @@ mod internal {
             .concat();
 
             let point =
-                EdwardsPoint::hash_to_curve::<sha2::Sha512>(&[&string_to_be_hashed], &[&dst]);
+                EdwardsPoint::encode_to_curve::<sha2::Sha512>(&[&string_to_be_hashed], &[&dst]);
+
+            // let point =
+            //     EdwardsPoint::hash_to_curve::<sha2::Sha512>(&[&string_to_be_hashed], &[&dst]);
 
             Self {
                 compressed: point.compress(),

@@ -15,7 +15,7 @@ If there's enough interest, I can bake in RSA-FDH-VRF support.
 
 As usual, it has not been audited, might be insecure, proceed with caution.
 
-Note: This library uses the curve-25519-dalek fork at <https://github.com/iquerejeta/curve25519-dalek> for its support of Hash2Curve w/ Elligator encoding (See RFC9380 Section 3-4.2.1), which is needed for VRFs. If you're unhappy with this situation, hold on a bit until this gets merged.
+Note: This library uses pre-release versions of cryptographic primitives for their support of the needed Encode2Curve primitives.
 
 ### Features
 
